@@ -28,11 +28,12 @@ class CameraSensor:
         self._cascade = cv2.CascadeClassifier(
             cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
         )
-        self._cap = cv2.VideoCapture(self._config.camera_device)
-        if not self._cap.isOpened():
+        while True:
+            self._cap = cv2.VideoCapture(self._config.camera_device)
+            if self._cap.isOpened():
+                break
             print("[Camera] Cannot open camera, retrying...")
             await asyncio.sleep(5)
-            continue
 
         interval = 1.0 / self._config.camera_fps
         while True:

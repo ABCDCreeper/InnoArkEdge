@@ -27,8 +27,7 @@ async def main():
 
     # 使用单个 aiohttp server 承载 Flask
     app = web.Application()
-    app.router.add_route("*", "/api{tail:.*}", wsgi_handler)
-    app.router.add_route("*", "/api/", wsgi_handler)
+    app.router.add_route("*", "/{path_info:.*}", wsgi_handler)
     # WebSocket 由 edge/ws_server.py 自行启动独立端口 :8765
     # nginx 将 /ws 代理到该端口
 
