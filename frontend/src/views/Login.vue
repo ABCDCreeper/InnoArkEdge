@@ -28,10 +28,11 @@ const handleLogin = async () => {
     await auth.login(formValue.value.username.trim(), formValue.value.password)
     message.success('登录成功')
     const redirect = (route.query.redirect as string) || '/'
-    // 使用 setTimeout 确保 toast 渲染后再跳转
-    setTimeout(() => {
+    router.push(redirect).catch((e) => {
+      // router.push 失败时回退到硬跳转
+      console.warn('router.push failed, using location.href', e)
       window.location.href = redirect
-    }, 300)
+    })
   } catch (err) {
     const msg = err instanceof ApiError ? err.message : '登录失败，请稍后重试'
     message.error(msg)
