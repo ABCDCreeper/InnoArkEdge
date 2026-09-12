@@ -14,9 +14,11 @@ sudo apt install -y \
   chromium-browser nginx \
   network-manager bluez bluetooth python3-venv python3-pip
 
-# 2. 复制代码
+# 2. 复制代码并修复权限（nginx 需要读取 dist/）
 sudo mkdir -p "$INSTALL_DIR"
 sudo cp -r "$REPO_DIR/frontend/dist" "$INSTALL_DIR/frontend/dist"
+sudo chmod -R 755 "$INSTALL_DIR/frontend/dist"
+sudo chown -R www-data:www-data "$INSTALL_DIR/frontend/dist"
 sudo cp -r "$REPO_DIR/backend" "$INSTALL_DIR/backend"
 sudo cp -r "$REPO_DIR/edge" "$INSTALL_DIR/edge"
 sudo cp "$REPO_DIR/main.py" "$INSTALL_DIR/main.py"
