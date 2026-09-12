@@ -1,0 +1,14 @@
+# Flask API
+flask>=3.0
+
+# 传感器
+bleak>=0.21.0
+opencv-python>=4.9.0
+pyserial>=3.5
+
+# WebSocket + 异步 Web
+aiohttp>=3.9.0
+aiohttp-wsgi>=0.10.0
+
+# MQTT
+asyncio-mqtt>=0.16.0,<2.0.0
