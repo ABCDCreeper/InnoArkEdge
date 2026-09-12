@@ -1,0 +1,15 @@
+[Unit]
+Description=InnoArk Kiosk Mode
+After=innoark-edge.service
+Requires=innoark-edge.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/startx /opt/innoark-edge/scripts/kiosk.sh -- :0 vt1
+Restart=always
+User=creeper
+StandardInput=tty
+TTYPath=/dev/tty1
+
+[Install]
+WantedBy=multi-user.target

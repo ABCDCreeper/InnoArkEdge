@@ -1,0 +1,16 @@
+[Unit]
+Description=InnoArk Edge Terminal Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/opt/innoark-edge/venv/bin/python /opt/innoark-edge/main.py
+WorkingDirectory=/opt/innoark-edge
+Restart=always
+RestartSec=5
+StartLimitInterval=200
+StartLimitBurst=10
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
