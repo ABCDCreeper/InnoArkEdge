@@ -20,4 +20,7 @@ exec chromium --kiosk \
   --no-sandbox \
   --disable-features=TranslateUI \
   --lang=zh-CN \
-  http://localhost
+  --remote-debugging-port=9222 \
+  --enable-logging=stderr \
+  --v=1 \
+  http://localhost 2>/tmp/chromium.log

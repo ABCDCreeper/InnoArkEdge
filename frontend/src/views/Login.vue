@@ -28,7 +28,10 @@ const handleLogin = async () => {
     await auth.login(formValue.value.username.trim(), formValue.value.password)
     message.success('登录成功')
     const redirect = (route.query.redirect as string) || '/'
-    router.push(redirect)
+    // 使用 setTimeout 确保 toast 渲染后再跳转
+    setTimeout(() => {
+      window.location.href = redirect
+    }, 300)
   } catch (err) {
     const msg = err instanceof ApiError ? err.message : '登录失败，请稍后重试'
     message.error(msg)
