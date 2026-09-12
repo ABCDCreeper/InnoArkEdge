@@ -65,10 +65,21 @@ class WebSocketServer:
             "bt_status": self._bt.status,
         }
 
+        # 事件名映射（匹配前端 store 的 handleMessage 期望）
+        event_map = {
+            "wifi_scan": "wifi_networks",
+            "wifi_connect": "wifi_result",
+            "wifi_disconnect": "wifi_result",
+            "bt_scan": "bt_devices",
+            "bt_pair": "bt_result",
+            "bt_connect": "bt_result",
+            "bt_disconnect": "bt_result",
+        }
+
         handler = handlers.get(action)
         if handler:
             result = await handler()
-            await ws.send_json({"event": action, "payload": result})
+            await ws.send_json({"event": event_map.get(action, action), "payload": result})
         else:
             await ws.send_json({"event": "error", "payload": f"Unknown cmd: {action}"})
 

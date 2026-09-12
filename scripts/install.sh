@@ -41,6 +41,6 @@ sudo systemctl daemon-reload
 sudo systemctl enable innoark-edge innoark-kiosk
 
 # 6. 数据目录
-mkdir -p "$INSTALL_DIR/data"
+sudo mkdir -p "$INSTALL_DIR/data"
 
 echo "[Install] Done! Reboot to start: sudo reboot"

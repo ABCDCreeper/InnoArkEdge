@@ -32,7 +32,7 @@ class CameraSensor:
         if not self._cap.isOpened():
             print("[Camera] Cannot open camera, retrying...")
             await asyncio.sleep(5)
-            return
+            continue
 
         interval = 1.0 / self._config.camera_fps
         while True:
