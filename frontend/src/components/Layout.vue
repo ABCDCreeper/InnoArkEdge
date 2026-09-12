@@ -12,6 +12,7 @@ import {
   TimerOutline as TimerIcon,
   SchoolOutline as SchoolIcon,
   SettingsOutline as SettingsIcon,
+  HardwareChipOutline,
   InformationCircleOutline as AboutIcon,
   PersonCircleOutline as PersonIcon,
   LogOutOutline as LogOutIcon,
@@ -24,6 +25,7 @@ import {
 import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 import FloatingPomodoro from './FloatingPomodoro.vue'
+import SensorStatus from './sensor/SensorStatus.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -38,6 +40,7 @@ const studentMenu: MenuDef[] = [
   { key: '/quiz', title: '闯关', icon: TrophyIcon },
   { key: '/my-groups', title: '我的分组', icon: PeopleIcon },
   { key: '/focus', title: '专注', icon: TimerIcon },
+  { key: '/devices', title: '设备', icon: HardwareChipOutline },
   { key: '/settings', title: '设置', icon: SettingsIcon },
   { key: '/about', title: '关于', icon: AboutIcon },
 ]
@@ -47,6 +50,7 @@ const teacherMenu: MenuDef[] = [
   { key: '/teacher', title: '团队总览', icon: SchoolIcon },
   { key: '/groups', title: '题库管理', icon: AlbumsIcon },
   { key: '/projects', title: '项目', icon: RocketIcon },
+  { key: '/devices', title: '设备', icon: HardwareChipOutline },
   { key: '/settings', title: '设置', icon: SettingsIcon },
   { key: '/about', title: '关于', icon: AboutIcon },
 ]
@@ -57,6 +61,7 @@ const managerMenu: MenuDef[] = [
   { key: '/groups', title: '题库管理', icon: AlbumsIcon },
   { key: '/teacher', title: '团队总览', icon: SchoolIcon },
   { key: '/projects', title: '项目', icon: RocketIcon },
+  { key: '/devices', title: '设备', icon: HardwareChipOutline },
   { key: '/settings', title: '设置', icon: SettingsIcon },
   { key: '/about', title: '关于', icon: AboutIcon },
 ]
@@ -125,6 +130,7 @@ onBeforeUnmount(() => window.removeEventListener('resize', onResize))
       <div class="header-user-area">
         <n-popover trigger="click">
           <template #trigger>
+            <sensor-status />
             <div class="user-trigger">
               <n-avatar round size="small" :style="{ backgroundColor: auth.isTeacher ? '#f0a020' : '#18a058' }">
                 <n-icon><person-icon /></n-icon>

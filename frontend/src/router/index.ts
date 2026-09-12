@@ -42,6 +42,7 @@ const routes = [
         component: () => import('../views/AdminUsers.vue'),
         meta: { roles: ['schooladmin', 'admin', 'superadmin'] },
       },
+      { path: 'devices', name: 'Devices', component: () => import('../views/Devices.vue') },
       { path: 'settings', name: 'Settings', component: () => import('../views/Settings.vue') },
       { path: 'about', name: 'About', component: () => import('../views/About.vue') },
     ],
