@@ -1,11 +1,19 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { NCard, NButton, NList, NListItem, NSpace, NText, NTag, useMessage } from 'naive-ui'
 import { useEdgeStore } from '../../stores/edge'
 
 const edge = useEdgeStore()
 const message = useMessage()
 const scanning = ref(false)
+
+// 监听 btStatus 变化，显示配对/连接结果
+watch(() => edge.btStatus.connected, (val) => {
+  if (val) message.success('蓝牙已连接')
+})
+watch(() => edge.btStatus.paired, (val) => {
+  if (val) message.success('蓝牙已配对')
+})
 
 async function scan() {
   scanning.value = true
@@ -15,7 +23,7 @@ async function scan() {
 
 function pair(addr: string) {
   edge.send('bt_pair', { address: addr })
-  message.info(`正在配对 ${addr}...`)
+  message.info(`正在配对 ${addr}，请在手环上确认...`)
 }
 
 function connect(addr: string) {
@@ -34,6 +42,7 @@ function disconnect() {
     <template #header-extra>
       <n-space>
         <n-tag v-if="edge.btStatus.connected" type="success" size="small">已连接</n-tag>
+        <n-tag v-if="edge.btStatus.paired && !edge.btStatus.connected" type="warning" size="small">已配对</n-tag>
         <n-button size="small" @click="scan" :loading="scanning" :disabled="scanning">扫描</n-button>
         <n-button v-if="edge.btStatus.connected" size="small" type="warning" @click="disconnect">断开</n-button>
       </n-space>

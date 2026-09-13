@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 import {
   NCard, NButton, NList, NListItem, NTag, NSpace, NText, NModal,
-  NInput, NForm, NFormItem, NRadio, NRadioGroup, NSpin,
+  NInput, NForm, NFormItem, NRadio, NRadioGroup,
   useMessage,
 } from 'naive-ui'
 import { useEdgeStore } from '../../stores/edge'
