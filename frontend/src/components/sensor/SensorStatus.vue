@@ -7,7 +7,7 @@ import { useEdgeStore } from '../../stores/edge'
 const edge = useEdgeStore()
 
 const bleStatus = computed(() => ({
-  color: edge.sensorStatus.ble === 'connected' ? '#18a058' : '#d03050',
+  color: ['connected', 'demo'].includes(edge.sensorStatus.ble) ? '#18a058' : '#d03050',
   icon: PulseOutline,
   label: `${edge.sensorData.hr} bpm`,
 }))
@@ -24,7 +24,7 @@ const attentionLevel = computed(() => {
   <n-space align="center" size="small">
     <n-popover trigger="hover">
       <template #trigger>
-        <n-tag :bordered="false" :color="{ text: bleStatus.color, border: 'transparent' }" size="small" style="cursor:pointer;">
+        <n-tag :bordered="false" :color="{ textColor: bleStatus.color }" size="small" style="cursor:pointer;">
           <template #icon>
             <n-icon :color="bleStatus.color"><component :is="bleStatus.icon" /></n-icon>
           </template>
@@ -36,7 +36,7 @@ const attentionLevel = computed(() => {
 
     <n-popover trigger="hover">
       <template #trigger>
-        <n-tag :bordered="false" :color="{ text: attentionLevel.color, border: 'transparent' }" size="small" style="cursor:pointer;">
+        <n-tag :bordered="false" :color="{ textColor: attentionLevel.color }" size="small" style="cursor:pointer;">
           <template #icon>
             <n-icon :color="attentionLevel.color"><eye-outline /></n-icon>
           </template>
@@ -48,7 +48,7 @@ const attentionLevel = computed(() => {
 
     <n-popover trigger="hover">
       <template #trigger>
-        <n-tag :bordered="false" :color="{ text: edge.sensorData.rfidCard ? '#18a058' : '#666', border: 'transparent' }" size="small" style="cursor:pointer;">
+        <n-tag :bordered="false" :color="{ textColor: edge.sensorData.rfidCard ? '#18a058' : '#666' }" size="small" style="cursor:pointer;">
           <template #icon>
             <n-icon><card-outline /></n-icon>
           </template>

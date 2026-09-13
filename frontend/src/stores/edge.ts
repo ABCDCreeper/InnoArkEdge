@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 
 export interface SensorData {
   hr: number
@@ -20,10 +20,15 @@ export interface BtDevice {
   name: string
 }
 
+let demoInterval: ReturnType<typeof setInterval> | null = null
+
 export const useEdgeStore = defineStore('edge', () => {
   const connected = ref(false)
-  const sensorData = ref<SensorData>({ hr: 0, hrv: 0, attention: 0, faceCount: 0, rfidCard: null })
-  const sensorStatus = ref({ ble: 'disconnected', camera: 'disconnected', rfid: 'disconnected' })
+  const useDemo = ref(true)
+
+  // 初始化为演示数据，避免页面显示全 0
+  const sensorData = ref<SensorData>({ hr: 72, hrv: 38.5, attention: 0.65, faceCount: 1, rfidCard: null })
+  const sensorStatus = ref({ ble: 'demo', camera: 'demo', rfid: 'demo' })
 
   const wifiNetworks = ref<WifiNetwork[]>([])
   const wifiStatus = ref({ connected: false, ssid: '', ip: '' })
@@ -34,7 +39,33 @@ export const useEdgeStore = defineStore('edge', () => {
   let ws: WebSocket | null = null
   let reconnectTimer: ReturnType<typeof setTimeout> | null = null
 
+  function startDemo() {
+    stopDemo()
+    demoInterval = setInterval(() => {
+      sensorData.value = {
+        hr: Math.round(65 + Math.random() * 25),
+        hrv: Math.round((30 + Math.random() * 25) * 10) / 10,
+        attention: Math.round((0.3 + Math.random() * 0.5) * 100) / 100,
+        faceCount: Math.round(Math.random() * 3),
+        rfidCard: Math.random() > 0.85 ? `卡 ${Math.floor(Math.random() * 1000)}` : null,
+      }
+      sensorStatus.value = {
+        ble: Math.random() > 0.1 ? 'demo' : 'disconnected',
+        camera: Math.random() > 0.15 ? 'demo' : 'disconnected',
+        rfid: Math.random() > 0.05 ? 'demo' : 'disconnected',
+      }
+    }, 5000)
+  }
+
+  function stopDemo() {
+    if (demoInterval) {
+      clearInterval(demoInterval)
+      demoInterval = null
+    }
+  }
+
   function connect() {
+    startDemo()
     if (ws && ws.readyState === WebSocket.OPEN) return
     ws = new WebSocket(`ws://${location.host}/ws`)
 
@@ -52,6 +83,7 @@ export const useEdgeStore = defineStore('edge', () => {
   }
 
   function disconnect() {
+    stopDemo()
     if (reconnectTimer) clearTimeout(reconnectTimer)
     ws?.close()
     ws = null
@@ -61,10 +93,10 @@ export const useEdgeStore = defineStore('edge', () => {
   function handleMessage(msg: any) {
     switch (msg.event) {
       case 'sensor_data':
-        sensorData.value = { ...sensorData.value, ...msg.payload }
+        if (!useDemo.value) sensorData.value = { ...sensorData.value, ...msg.payload }
         break
       case 'sensor_status':
-        sensorStatus.value = msg.payload
+        if (!useDemo.value) sensorStatus.value = msg.payload
         break
       case 'wifi_networks':
         wifiNetworks.value = msg.payload
@@ -90,7 +122,7 @@ export const useEdgeStore = defineStore('edge', () => {
   }
 
   return {
-    connected, sensorData, sensorStatus,
+    connected, useDemo, sensorData, sensorStatus,
     wifiNetworks, wifiStatus,
     btDevices, btStatus,
     connect, disconnect, send,

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, onBeforeUnmount } from 'vue'
 import {
-  NCard, NGrid, NGridItem, NStatistic, NButton, NTag, NSpace, NText, NLog,
+  NCard, NGrid, NGridItem, NStatistic, NTag, NSpace, NLog,
 } from 'naive-ui'
 import { useEdgeStore } from '../../stores/edge'
 
@@ -52,9 +52,9 @@ onBeforeUnmount(() => {
 
   <n-card title="传感器状态" style="margin-top: 12px;">
     <n-space>
-      <n-tag :type="edge.sensorStatus.ble === 'connected' ? 'success' : 'default'">BLE: {{ edge.sensorStatus.ble }}</n-tag>
-      <n-tag :type="edge.sensorStatus.camera === 'connected' ? 'success' : 'default'">Camera: {{ edge.sensorStatus.camera }}</n-tag>
-      <n-tag :type="edge.sensorStatus.rfid === 'connected' ? 'success' : 'default'">RFID: {{ edge.sensorStatus.rfid }}</n-tag>
+      <n-tag :type="['connected', 'demo'].includes(edge.sensorStatus.ble) ? 'success' : 'default'">BLE: {{ edge.sensorStatus.ble }}</n-tag>
+      <n-tag :type="['connected', 'demo'].includes(edge.sensorStatus.camera) ? 'success' : 'default'">Camera: {{ edge.sensorStatus.camera }}</n-tag>
+      <n-tag :type="['connected', 'demo'].includes(edge.sensorStatus.rfid) ? 'success' : 'default'">RFID: {{ edge.sensorStatus.rfid }}</n-tag>
     </n-space>
   </n-card>
 
