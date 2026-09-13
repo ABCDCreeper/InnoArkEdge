@@ -25,15 +25,22 @@ class CameraSensor:
         self._cascade: Optional[cv2.CascadeClassifier] = None
 
     async def run(self):
+        print("[Camera] Sensor started, initializing...")
         self._cascade = cv2.CascadeClassifier(
             cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
         )
-        while True:
+        print("[Camera] CascadeClassifier loaded")
+        max_retries = 10
+        for attempt in range(max_retries):
             self._cap = cv2.VideoCapture(self._config.camera_device)
             if self._cap.isOpened():
+                print(f"[Camera] Camera opened: device={self._config.camera_device}")
                 break
-            print("[Camera] Cannot open camera, retrying...")
+            print(f"[Camera] Cannot open camera (attempt {attempt + 1}/{max_retries}), retrying...")
             await asyncio.sleep(5)
+        else:
+            print(f"[Camera] Failed to open camera after {max_retries} attempts, giving up")
+            return  # 退出协程，不再重试
 
         interval = 1.0 / self._config.camera_fps
         while True:
