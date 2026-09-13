@@ -6,6 +6,7 @@ After=network.target
 Type=simple
 ExecStart=/opt/innoark-edge/venv/bin/python /opt/innoark-edge/main.py
 WorkingDirectory=/opt/innoark-edge
+EnvironmentFile=-/etc/default/innoark-edge
 Restart=always
 RestartSec=5
 StartLimitInterval=200

@@ -7,8 +7,8 @@ xset s off 2>/dev/null || true
 xset -dpms 2>/dev/null || true
 xset s noblank 2>/dev/null || true
 
-# 启动 unclutter 和 chromium（全屏）
-unclutter -idle 0 &
+# 启动 unclutter（隐藏鼠标）和 chromium（全屏）
+unclutter -idle 5 &
 exec chromium --kiosk \
   --no-first-run \
   --disable-infobars \
