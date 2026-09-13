@@ -9,6 +9,7 @@ from flask import Flask
 from . import db
 from .config import Config
 from .errors import register_error_handlers
+from .learn_routes import learn_bp
 from .routes import register_blueprints
 
 
@@ -27,6 +28,7 @@ def create_app(test_config: dict | None = None) -> Flask:
     db.init_app(app)
     register_error_handlers(app)
     register_blueprints(app)
+    app.register_blueprint(learn_bp)
 
     with app.app_context():
         db.init_db()
