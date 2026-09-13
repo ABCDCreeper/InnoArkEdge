@@ -5,9 +5,13 @@ Requires=innoark-edge.service
 
 [Service]
 Type=simple
+ExecStartPre=/bin/bash -c 'chmod 666 /dev/tty1 || true'
 ExecStart=/usr/bin/sudo -u creeper /usr/bin/startx /opt/innoark-edge/scripts/kiosk.sh -- :0 vt1
 Restart=always
-RestartSec=5
+RestartSec=10
+RestartMaxDelaySec=30
+StartLimitInterval=120
+StartLimitBurst=3
 StandardInput=tty
 TTYPath=/dev/tty1
 
