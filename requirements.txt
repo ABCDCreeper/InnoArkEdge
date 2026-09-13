@@ -4,7 +4,7 @@ flask>=3.0
 # 传感器
 bleak>=0.21.0
 opencv-python>=4.9.0
-pyserial>=3.5
+smbus2>=0.4.0
 
 # WebSocket + 异步 Web
 aiohttp>=3.9.0
