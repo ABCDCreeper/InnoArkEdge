@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 
 const routes = [
@@ -43,6 +43,8 @@ const routes = [
         meta: { roles: ['schooladmin', 'admin', 'superadmin'] },
       },
       { path: 'devices', name: 'Devices', component: () => import('../views/Devices.vue') },
+      { path: 'learn', name: 'Learn', component: () => import('../views/Learn.vue') },
+      { path: 'learn/:id', name: 'CourseDetail', component: () => import('../views/LessonView.vue'), props: true },
       { path: 'settings', name: 'Settings', component: () => import('../views/Settings.vue') },
       { path: 'about', name: 'About', component: () => import('../views/About.vue') },
     ],
@@ -50,7 +52,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes,
 })
 

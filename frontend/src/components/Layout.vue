@@ -24,17 +24,20 @@ import {
 
 import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
+import { useEdgeStore } from '../stores/edge'
 import FloatingPomodoro from './FloatingPomodoro.vue'
 import SensorStatus from './sensor/SensorStatus.vue'
 
 const route = useRoute()
 const router = useRouter()
 const auth = useAuthStore()
+const edge = useEdgeStore()
 
 interface MenuDef { key: string; title: string; icon: Component }
 
 const studentMenu: MenuDef[] = [
   { key: '/', title: '首页', icon: HomeIcon },
+  { key: '/learn', title: '学习', icon: TrophyIcon },
   { key: '/projects', title: '项目', icon: RocketIcon },
   { key: '/resources', title: '资源库', icon: CompassIcon },
   { key: '/quiz', title: '闯关', icon: TrophyIcon },
@@ -47,6 +50,7 @@ const studentMenu: MenuDef[] = [
 
 const teacherMenu: MenuDef[] = [
   { key: '/', title: '首页', icon: HomeIcon },
+  { key: '/learn', title: '学习', icon: TrophyIcon },
   { key: '/teacher', title: '团队总览', icon: SchoolIcon },
   { key: '/groups', title: '题库管理', icon: AlbumsIcon },
   { key: '/projects', title: '项目', icon: RocketIcon },
@@ -57,6 +61,7 @@ const teacherMenu: MenuDef[] = [
 
 const managerMenu: MenuDef[] = [
   { key: '/', title: '首页', icon: HomeIcon },
+  { key: '/learn', title: '学习', icon: TrophyIcon },
   { key: '/admin/users', title: '用户管理', icon: PeopleIcon },
   { key: '/groups', title: '题库管理', icon: AlbumsIcon },
   { key: '/teacher', title: '团队总览', icon: SchoolIcon },
@@ -113,8 +118,12 @@ function onResize() { updateViewport() }
 onMounted(() => {
   updateViewport()
   window.addEventListener('resize', onResize)
+  edge.connect()
 })
-onBeforeUnmount(() => window.removeEventListener('resize', onResize))
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', onResize)
+  edge.disconnect()
+})
 </script>
 
 <template>
